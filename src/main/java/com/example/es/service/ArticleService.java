@@ -25,8 +25,8 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public Iterable<Article> findAll() {
-        return articleRepository.findAll();
+    public Page<Article> findAll(Pageable pageAble) {
+        return articleRepository.findAll(pageAble);
     }
 
     @Override

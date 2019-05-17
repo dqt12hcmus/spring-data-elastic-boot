@@ -3,10 +3,14 @@ package com.example.es.service;
 import com.example.es.config.Config;
 import com.example.es.model.Article;
 import com.example.es.model.Author;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -20,6 +24,16 @@ import java.util.Optional;
 class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private ElasticsearchTemplate esTemplate;
+
+    @Before
+    public void before() {
+        esTemplate.deleteIndex(Article.class);
+        esTemplate.createIndex(Article.class);
+        esTemplate.putMapping(Article.class);
+        esTemplate.refresh(Article.class);
+    }
     @Test
     void save() {
         List<Author> authorList = new ArrayList<>();
@@ -61,7 +75,19 @@ class ArticleServiceTest {
     }
     @Test
     void findAll(){
-        Iterable<Article> articles = articleService.findAll();
-        articles.forEach(System.out::println);
+
     }
+    @Test
+    void delete(){
+        Article article = new Article();
+        article.setId("5");
+        articleService.delete(article);
+    }
+    @Test
+    void findByName(){
+        String name = "author1";
+        Page<Article> pageOneWithTwoRecords = articleService.findByAuthorName(name, PageRequest.of(0, 2));
+        Page<Article> pageTwoWithTwoRecords = articleService.findByAuthorName(name, PageRequest.of(1, 2));
+    }
+
 }

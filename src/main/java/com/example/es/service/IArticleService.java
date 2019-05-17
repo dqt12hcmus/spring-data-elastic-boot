@@ -11,7 +11,7 @@ public interface IArticleService {
 
     Optional<Article> findOne(String id);
 
-    Iterable<Article> findAll();
+    Page<Article> findAll(Pageable pageAble);
 
     Page<Article> findByAuthorName(String name, Pageable pageable);
 
