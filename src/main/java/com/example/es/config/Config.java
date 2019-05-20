@@ -23,6 +23,7 @@ public class Config {
     private String ip;
     @Value("${elasticsearch.port}")
     private int port;
+
     @Bean
     public Client client() {
         Settings elasticsearchSettings = Settings.builder()

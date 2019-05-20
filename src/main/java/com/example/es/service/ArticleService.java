@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ArticleService implements IArticleService{
+public class ArticleService implements IArticleService {
     @Autowired
-    private  ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
 
     @Override
     public Article save(Article article) {
